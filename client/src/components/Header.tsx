@@ -715,8 +715,10 @@ export function Header({
                       <Separator />
 
                       <div className="max-h-[200px] overflow-auto">
-                        <Label className="mb-2 block">Current Requests</Label>
-                        {outputRequests.map((req) => {
+                        <Label className="mb-2 block">Current Requests ({requestType})</Label>
+                        {outputRequests
+                          .filter((req) => req.requestType === requestType)
+                          .map((req) => {
                           const el =
                             nodes.find((n) => n.id === req.elementId) ||
                             edges.find((e) => e.id === req.elementId);
