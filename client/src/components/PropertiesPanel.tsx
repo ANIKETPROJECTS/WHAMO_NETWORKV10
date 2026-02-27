@@ -200,7 +200,7 @@ export function PropertiesPanel() {
             </div>
           )}
 
-          {isNode && (element.data?.type === 'node' || element.data?.type === 'junction' || element.data?.type === 'reservoir' || element.data?.type === 'surgeTank' || element.data?.type === 'flowBoundary') && (
+          {isNode && (element.data?.type === 'node' || element.data?.type === 'junction' || element.data?.type === 'reservoir' || element.data?.type === 'surgeTank' || element.data?.type === 'flowBoundary' || element.data?.type_st) && (
             <>
               <div className="grid gap-2">
                 <Label htmlFor="nodeNum">Node Number</Label>
@@ -311,15 +311,14 @@ export function PropertiesPanel() {
             </>
           )}
 
-          {isNode && element.data?.type === 'surgeTank' && (
+          {isNode && (element.data?.type === 'surgeTank' || element.data?.type_st) && (
             <>
               <div className="grid gap-2">
                 <Label htmlFor="st-type">Tank Type</Label>
                 <Select 
                   value={element.data?.type_st || 'SIMPLE'} 
                   onValueChange={(v) => {
-                    handleChange('type', v);
-                    handleChange('type_st', v); // Duplicate for legacy/display if needed
+                    handleChange('type_st', v);
                   }}
                 >
                   <SelectTrigger id="st-type">

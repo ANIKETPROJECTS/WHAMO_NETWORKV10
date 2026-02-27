@@ -251,23 +251,23 @@ export function generateInpFile(nodes: WhamoNode[], edges: WhamoEdge[], autoDown
     addL('');
   });
 
-  nodes.filter(n => n.type === 'surgeTank').forEach(n => {
+  nodes.filter(n => n.type === 'surgeTank' || n.data?.type_st).forEach(n => {
     const d = n.data;
     if (!d) return;
     const unit = d.unit || globalUnit;
     addComment(d.comment);
     addL('SURGETANK ');
-    addL(` ID ${d.label} ${d.type || 'SIMPLE'}`);
+    addL(` ID ${d.label} ${d.type_st || 'SIMPLE'}`);
     addL(` ELBOTTOM ${toFPS(Number(d.tankBottom), unit, 'elevation')}`);
     addL(` ELTOP ${toFPS(Number(d.tankTop), unit, 'elevation')}`);
 
-    if (d.type === 'AIRTANK' || d.type === 'DIFFERENTIAL') {
+    if (d.type_st === 'AIRTANK' || d.type_st === 'DIFFERENTIAL') {
       if (d.initialWaterLevel !== undefined) {
         addL(` HTANK ${toFPS(Number(d.initialWaterLevel), unit, 'elevation')}`);
       }
     }
 
-    if (d.type === 'DIFFERENTIAL') {
+    if (d.type_st === 'DIFFERENTIAL') {
       if (d.riserDiameter !== undefined) {
         addL(` RISERDIAM ${toFPS(Number(d.riserDiameter), unit, 'diameter')}`);
       }
