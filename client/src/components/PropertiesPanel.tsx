@@ -548,8 +548,9 @@ export function PropertiesPanel() {
                   <Input 
                     id="cplus" 
                     type="number" 
-                    value={element.data?.cplus || ''} 
-                    onChange={(e) => handleChange('cplus', e.target.value)} 
+                    placeholder="0.0"
+                    value={element.data?.cplus ?? ''} 
+                    onChange={(e) => handleChange('cplus', e.target.value === '' ? undefined : e.target.value)} 
                   />
                 </div>
                 <div className="space-y-2">
@@ -557,8 +558,9 @@ export function PropertiesPanel() {
                   <Input 
                     id="cminus" 
                     type="number" 
-                    value={element.data?.cminus || ''} 
-                    onChange={(e) => handleChange('cminus', e.target.value)} 
+                    placeholder="0.0"
+                    value={element.data?.cminus ?? ''} 
+                    onChange={(e) => handleChange('cminus', e.target.value === '' ? undefined : e.target.value)} 
                   />
                 </div>
               </div>
@@ -582,8 +584,9 @@ export function PropertiesPanel() {
                   <Input 
                     id="cplus" 
                     type="number" 
-                    value={element.data?.cplus || ''} 
-                    onChange={(e) => handleChange('cplus', e.target.value)} 
+                    placeholder="0.0"
+                    value={element.data?.cplus ?? ''} 
+                    onChange={(e) => handleChange('cplus', e.target.value === '' ? undefined : e.target.value)} 
                   />
                 </div>
                 <div className="space-y-2">
@@ -591,8 +594,9 @@ export function PropertiesPanel() {
                   <Input 
                     id="cminus" 
                     type="number" 
-                    value={element.data?.cminus || ''} 
-                    onChange={(e) => handleChange('cminus', e.target.value)} 
+                    placeholder="0.0"
+                    value={element.data?.cminus ?? ''} 
+                    onChange={(e) => handleChange('cminus', e.target.value === '' ? undefined : e.target.value)} 
                   />
                 </div>
               </div>
