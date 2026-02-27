@@ -57,6 +57,7 @@ export function PropertiesPanel() {
       length: 'length',
       diameter: 'diameter',
       elevation: 'elevation',
+      reservoirElevation: 'elevation',
       tankTop: 'elevation',
       tankBottom: 'elevation',
       initialWaterLevel: 'elevation',
