@@ -148,10 +148,13 @@ export function generateInpFile(nodes: WhamoNode[], edges: WhamoEdge[], autoDown
 
     // RULE 2: SKIP - Intermediate Nodes in SAME element chain
     // Skip if EXACTLY one incoming and one outgoing, and they share the SAME element ID
+    // Disabled: Include each and every node instead of skipping them
+    /* 
     if (connections.incoming.length === 1 && connections.outgoing.length === 1 &&
         connections.incoming[0] === connections.outgoing[0]) {
       return;
     }
+    */
 
     // Include all other nodes
     nodesToInclude.add(nodeId);
