@@ -62,10 +62,15 @@ interface EdgeData extends Record<string, unknown> {
 export type WhamoNode = Node<NodeData>;
 export type WhamoEdge = Edge<EdgeData>;
 
-interface ComputationalParameters {
+export interface TimeStage {
   dtcomp: number;
   dtout: number;
   tmax: number;
+}
+
+export interface ComputationalParameters {
+  stages: TimeStage[];
+  accutest: 'FULL' | 'PARTIAL' | 'NONE';
 }
 
 interface OutputRequest {
@@ -127,9 +132,12 @@ export const useNetworkStore = create<NetworkState>((set, get) => ({
   selectedElementId: null,
   selectedElementType: null,
   computationalParams: {
-    dtcomp: 0.01,
-    dtout: 0.1,
-    tmax: 500.0,
+    stages: [{
+      dtcomp: 0.01,
+      dtout: 0.1,
+      tmax: 500.0,
+    }],
+    accutest: 'NONE',
   },
   outputRequests: [],
   isLocked: false,

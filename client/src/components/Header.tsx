@@ -772,69 +772,106 @@ export function Header({
                       <Settings2 className="w-4 h-4" /> Computation Parameters
                     </MenubarItem>
                   </DialogTrigger>
-                  <DialogContent>
+                  <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                       <DialogTitle>Computational Parameters</DialogTitle>
                     </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="dtcomp" className="text-right">
-                          DTCOMP
-                        </Label>
-                        <Input
-                          id="dtcomp"
-                          type="number"
-                          step="0.001"
-                          className="col-span-3"
-                          value={localParams.dtcomp}
-                          onChange={(e) => {
-                            const val = parseFloat(e.target.value);
-                            setLocalParams({ ...localParams, dtcomp: val });
-                            updateComputationalParams({
-                              ...localParams,
-                              dtcomp: val,
-                            });
-                          }}
-                        />
+                    <div className="grid gap-6 py-4">
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <Label className="text-sm font-semibold">Time Stages</Label>
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="h-8"
+                            onClick={() => {
+                              const newStages = [...computationalParams.stages, { dtcomp: 0.01, dtout: 0.1, tmax: 100 }];
+                              updateComputationalParams({ stages: newStages });
+                            }}
+                          >
+                            Add Stage
+                          </Button>
+                        </div>
+                        <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
+                          {computationalParams.stages.map((stage, index) => (
+                            <div key={index} className="grid grid-cols-12 gap-2 items-end p-3 border rounded-md bg-muted/20 relative group">
+                              <div className="col-span-3 space-y-1">
+                                <Label className="text-[10px]">DTCOMP</Label>
+                                <Input 
+                                  type="number" 
+                                  step="0.001"
+                                  className="h-8 text-xs"
+                                  value={stage.dtcomp}
+                                  onChange={e => {
+                                    const newStages = [...computationalParams.stages];
+                                    newStages[index] = { ...stage, dtcomp: parseFloat(e.target.value) || 0 };
+                                    updateComputationalParams({ stages: newStages });
+                                  }}
+                                />
+                              </div>
+                              <div className="col-span-3 space-y-1">
+                                <Label className="text-[10px]">DTOUT</Label>
+                                <Input 
+                                  type="number" 
+                                  step="0.01"
+                                  className="h-8 text-xs"
+                                  value={stage.dtout}
+                                  onChange={e => {
+                                    const newStages = [...computationalParams.stages];
+                                    newStages[index] = { ...stage, dtout: parseFloat(e.target.value) || 0 };
+                                    updateComputationalParams({ stages: newStages });
+                                  }}
+                                />
+                              </div>
+                              <div className="col-span-4 space-y-1">
+                                <Label className="text-[10px]">TMAX</Label>
+                                <Input 
+                                  type="number" 
+                                  className="h-8 text-xs"
+                                  value={stage.tmax}
+                                  onChange={e => {
+                                    const newStages = [...computationalParams.stages];
+                                    newStages[index] = { ...stage, tmax: parseFloat(e.target.value) || 0 };
+                                    updateComputationalParams({ stages: newStages });
+                                  }}
+                                />
+                              </div>
+                              <div className="col-span-2 pb-0.5">
+                                <Button 
+                                  variant="ghost" 
+                                  size="icon" 
+                                  className="h-8 w-8 text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                                  disabled={computationalParams.stages.length === 1}
+                                  onClick={() => {
+                                    const newStages = computationalParams.stages.filter((_, i) => i !== index);
+                                    updateComputationalParams({ stages: newStages });
+                                  }}
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="dtout" className="text-right">
-                          DTOUT
-                        </Label>
-                        <Input
-                          id="dtout"
-                          type="number"
-                          step="0.01"
-                          className="col-span-3"
-                          value={localParams.dtout}
-                          onChange={(e) => {
-                            const val = parseFloat(e.target.value);
-                            setLocalParams({ ...localParams, dtout: val });
-                            updateComputationalParams({
-                              ...localParams,
-                              dtout: val,
-                            });
-                          }}
-                        />
-                      </div>
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="tmax" className="text-right">
-                          TMAX
-                        </Label>
-                        <Input
-                          id="tmax"
-                          type="number"
-                          className="col-span-3"
-                          value={localParams.tmax}
-                          onChange={(e) => {
-                            const val = parseFloat(e.target.value);
-                            setLocalParams({ ...localParams, tmax: val });
-                            updateComputationalParams({
-                              ...localParams,
-                              tmax: val,
-                            });
-                          }}
-                        />
+
+                      <Separator />
+
+                      <div className="space-y-2">
+                        <Label htmlFor="accutest">ACCUTEST</Label>
+                        <Select 
+                          value={computationalParams.accutest || 'NONE'} 
+                          onValueChange={(v: any) => updateComputationalParams({ accutest: v })}
+                        >
+                          <SelectTrigger id="accutest">
+                            <SelectValue placeholder="Select accuracy mode" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="FULL">FULL (High Accuracy)</SelectItem>
+                            <SelectItem value="PARTIAL">PARTIAL (Moderate)</SelectItem>
+                            <SelectItem value="NONE">NONE (No Checking)</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </div>
                     </div>
                   </DialogContent>
